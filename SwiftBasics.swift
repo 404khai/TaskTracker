@@ -25,4 +25,16 @@ import Playgrounds
         "name": "Khai",
         "Role": "Developer"
     ]
+    
+    func greet() {
+        print("Hello World")
+    }
+    
+    greet()
+    
+    func calculateTotal(price: Double, quantity: Int) -> Double {
+        return price * Double(quantity)
+    }
+    
+    calculateTotal(price: 34.5, quantity: 31)
 }
