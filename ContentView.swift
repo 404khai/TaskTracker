@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var taskCount: Int = 0
     @State private var tasks: [Task] = [
-        Task(title: "Learn Swift"),
+        Task(title: "Learn Swift", isCompleted: true),
         Task(title: "Build an App"),
         Task(title: "Deploy to App Store")
     ]
@@ -21,19 +21,27 @@ struct ContentView: View {
             Text("TaskTracker")
                 .font(.largeTitle)
                 .fontWeight(.bold)
-            Text("Stay organized in 2026")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .padding(.bottom)
             
-            Text("You have completed \(taskCount) tasks")
-            
-            Button("Add Task"){
-                taskCount += 1
+            // Lists of tasks
+            List{
+                ForEach(tasks) { task in
+                    HStack{
+                        Text(task.title)
+                            .strikethrough(task.isCompleted)
+                        Image(systemName: task.isCompleted ?
+                              "checkmark.seal.fill": "circlebadge")
+                    }
+                }
             }
-            .buttonStyle(.borderedProminent)
-            
         }
-        .padding()
+        
+    }
+    
+    private func addTask(){
+        let newTask = Task(title: newTaskTitle)
+        tasks.append(newTask)
+        newTaskTitle = ""
     }
 }
 
