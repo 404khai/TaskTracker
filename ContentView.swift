@@ -23,6 +23,16 @@ struct ContentView: View {
                 .fontWeight(.bold)
                 .padding(.bottom)
             
+            HStack{
+                TextField("New Task", text: $newTaskTitle)
+                    .textFieldStyle(.roundedBorder)
+                Button("Add"){
+                    addTask()
+                }
+                .buttonStyle(.borderedProminent)
+                .disabled(newTaskTitle.isEmpty)
+            }
+            
             // Lists of tasks
             List{
                 ForEach(tasks) { task in
