@@ -6,14 +6,12 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
     @State private var taskCount: Int = 0
-    @State private var tasks: [Task] = [
-        Task(title: "Learn Swift", isCompleted: true),
-        Task(title: "Build an App"),
-        Task(title: "Deploy to App Store")
-    ]
+    @Query private var tasks: [Task]
+    @Environment(\.modelContext) private var modelContext
     @State private var newTaskTitle = ""
     
     var body: some View {
@@ -46,20 +44,28 @@ struct ContentView: View {
                         toggleTask(task)
                     }
                 }
+                
+                .onDelete(perform: deleteTask)
             }
         }
         
     }
     
+    // add new tassk
     private func addTask(){
         let newTask = Task(title: newTaskTitle)
-        tasks.append(newTask)
+        modelContext.insert(newTask)  // SAVE TO THE DB
         newTaskTitle = ""
     }
     
     private func toggleTask(_ task: Task){
-        if let index = tasks.firstIndex(where: {$0.id == task.id}){
-            tasks[index].isCompleted.toggle()
+        task.isCompleted.toggle()
+    }
+    
+    // deletes tasks by swiping left
+    private func deleteTask(at offsets:IndexSet){
+        for index in offsets{
+            modelContext.delete(tasks[index])
         }
     }
 }
