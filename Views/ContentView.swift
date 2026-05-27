@@ -16,6 +16,7 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
+            
             Text("TaskTracker")
                 .font(.largeTitle)
                 .fontWeight(.bold)
@@ -55,9 +56,11 @@ struct ContentView: View {
     private func addTask(){
         let newTask = Task(title: newTaskTitle)
         modelContext.insert(newTask)  // SAVE TO THE DB
+        print("Added task: \(newTask.title)")
         newTaskTitle = ""
     }
     
+    // toggle tasks between isCompleted states
     private func toggleTask(_ task: Task){
         task.isCompleted.toggle()
     }
